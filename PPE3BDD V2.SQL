@@ -2,26 +2,26 @@
  ----------------------------------------------------------------------------
              Génération d'une base de données pour
                         SQL Server 2000
-                       (6/12/2019 14:25:25)
+                       (6/12/2019 14:44:23)
  ----------------------------------------------------------------------------
-     Nom de la base : MLR2
+     Nom de la base : MLR3
      Projet : Espace de travail
      Auteur : LMC
-     Date de dernière modification : 6/12/2019 14:25:03
+     Date de dernière modification : 6/12/2019 14:44:09
  ----------------------------------------------------------------------------
 */
 
-drop database MLR2
+drop database MLR3
 go
 
 /* -----------------------------------------------------------------------------
-      OUVERTURE DE LA BASE MLR2
+      OUVERTURE DE LA BASE MLR3
 ----------------------------------------------------------------------------- */
 
-create database MLR2
+create database MLR3
 go
 
-use MLR2
+use MLR3
 go
 
 
@@ -46,9 +46,9 @@ go
 
 create table ASSOCIATION
   (
-     IDASSOCIATION int  not null  ,
+     IDASSOCIATION int  not null IDENTITY(1,1) ,
      IDMISSION int  not null  ,
-     ID int  not null  ,
+     IDEMPLOYE int  not null  ,
      NOM varchar(25)  null  
      ,
      constraint PK_ASSOCIATION primary key (IDASSOCIATION)
@@ -67,7 +67,7 @@ go
 
 create table PERSONNE
   (
-     IDPERSONNE int  not null  ,
+     IDPERSONNE int  not null IDENTITY(1,1) ,
      TYPECATEGORIEVIP varchar(128)  not null  ,
      LIBELLECOURANTARTISTIQUE varchar(35)  not null  ,
      NOM varchar(25)  null  ,
@@ -95,7 +95,7 @@ go
 
 create table ACTIONS
   (
-     IDACTION int  not null  ,
+     IDACTION int  not null IDENTITY(1,1) ,
      DESCRIPTIF varchar(128)  null  
      ,
      constraint PK_ACTIONS primary key (IDACTION)
@@ -110,7 +110,7 @@ go
 
 create table CONTROLE
   (
-     IDCONTROLE int  not null  ,
+     IDCONTROLE int  not null IDENTITY(1,1) ,
      IDENTREPRISESPECIALISEE int  not null  ,
      IDTYPECONTROLE int  not null  ,
      IDZONESTOCKAGE int  not null  ,
@@ -134,11 +134,11 @@ go
 
 create table EMPLOYES
   (
-     ID int  not null  ,
+     IDEMPLOYE int  not null IDENTITY(1,1) ,
      NOM varchar(128)  null  ,
      LOGIN varchar(128)  null  
      ,
-     constraint PK_EMPLOYES primary key (ID)
+     constraint PK_EMPLOYES primary key (IDEMPLOYE)
   ) 
 go
 
@@ -166,7 +166,7 @@ create table ETAGE
   (
      IDBATIMENT int  not null  ,
      IDZONESTOCKAGE int  not null  ,
-     IDETAGE int  not null  
+     IDETAGE int  not null  IDENTITY(1,1)
      ,
      constraint PK_ETAGE primary key (IDBATIMENT, IDZONESTOCKAGE, IDETAGE)
   ) 
@@ -184,7 +184,7 @@ go
 
 create table EVENEMENT
   (
-     IDEVENEMENT int  not null  ,
+     IDEVENEMENT int  not null IDENTITY(1,1) ,
      NOMTHEME varchar(128)  not null  ,
      DATEDEBUT datetime  null  ,
      DATEFIN datetime  null  ,
@@ -235,7 +235,7 @@ go
 
 create table BATIMENT
   (
-     IDBATIMENT int  not null  
+     IDBATIMENT int  not null IDENTITY(1,1) 
      ,
      constraint PK_BATIMENT primary key (IDBATIMENT)
   ) 
@@ -249,7 +249,7 @@ go
 
 create table ENTREPRISESPECIALISEE
   (
-     IDENTREPRISESPECIALISEE int  not null  ,
+     IDENTREPRISESPECIALISEE int  not null IDENTITY(1,1) ,
      NOM varchar(35)  null  ,
      ADRESSE varchar(128)  null  ,
      CODEPOSTAL char(5)  null  ,
@@ -268,7 +268,7 @@ go
 
 create table CATEGORIE
   (
-     IDCATEGORIE int  not null  ,
+     IDCATEGORIE int  not null IDENTITY(1,1) ,
      LIBELLE varchar(128)  null  
      ,
      constraint PK_CATEGORIE primary key (IDCATEGORIE)
@@ -284,7 +284,7 @@ go
 create table CAMPAGNE
   (
      INTITULECAMPAGNE varchar(35)  not null  ,
-     ID int  not null  ,
+     IDEMPLOYE int  not null  ,
      TYPEPUBLIC varchar(25)  not null  ,
      OBJECTIF varchar(128)  null  ,
      DATEDEBUT datetime  null  ,
@@ -306,7 +306,7 @@ go
 
 create table TYPECONTROLE
   (
-     IDTYPECONTROLE int  not null  ,
+     IDTYPECONTROLE int  not null IDENTITY(1,1) ,
      LIBELLE varchar(128)  null  
      ,
      constraint PK_TYPECONTROLE primary key (IDTYPECONTROLE)
@@ -335,8 +335,8 @@ go
 
 create table AGENCE
   (
-     IDAGENCE int  not null  ,
-     ID int  not null  ,
+     IDAGENCE int  not null IDENTITY(1,1) ,
+     IDEMPLOYE int  not null  ,
      LIBELLE varchar(35)  null  ,
      ADRESSE varchar(128)  null  ,
      CODEPOSTAL char(5)  null  ,
@@ -362,7 +362,7 @@ go
 
 create table MISSION
   (
-     IDMISSION int  not null  ,
+     IDMISSION int  not null IDENTITY(1,1) ,
      NOM varchar(35)  null  
      ,
      constraint PK_MISSION primary key (IDMISSION)
@@ -377,7 +377,7 @@ go
 
 create table PARTENARIAT
   (
-     IDPARTENARIAT int  not null  ,
+     IDPARTENARIAT int  not null IDENTITY(1,1) ,
      IDASSOCIATION int  not null  ,
      IDACTION int  not null  ,
      BUDGET money  null  ,
@@ -401,7 +401,7 @@ go
 
 create table ZONESTOCKAGE
   (
-     IDZONESTOCKAGE int  not null  ,
+     IDZONESTOCKAGE int  not null IDENTITY(1,1) ,
      IDCATEGORIE int  not null  ,
      NOM varchar(25)  null  ,
      ADRESSEPOSTALE varchar(128)  null  ,
@@ -589,8 +589,8 @@ go
 
 
 alter table ASSOCIATION 
-     add constraint FK_ASSOCIATION_EMPLOYES foreign key (ID) 
-               references EMPLOYES (ID)
+     add constraint FK_ASSOCIATION_EMPLOYES foreign key (IDEMPLOYE) 
+               references EMPLOYES (IDEMPLOYE)
 go
 
 
@@ -661,8 +661,8 @@ go
 
 
 alter table CAMPAGNE 
-     add constraint FK_CAMPAGNE_EMPLOYES foreign key (ID) 
-               references EMPLOYES (ID)
+     add constraint FK_CAMPAGNE_EMPLOYES foreign key (IDEMPLOYE) 
+               references EMPLOYES (IDEMPLOYE)
 go
 
 
@@ -677,8 +677,8 @@ go
 
 
 alter table AGENCE 
-     add constraint FK_AGENCE_EMPLOYES foreign key (ID) 
-               references EMPLOYES (ID)
+     add constraint FK_AGENCE_EMPLOYES foreign key (IDEMPLOYE) 
+               references EMPLOYES (IDEMPLOYE)
 go
 
 
@@ -841,3 +841,19 @@ go
                FIN DE GENERATION
  -----------------------------------------------------------------------------
 */
+
+/*
+----------------------------------------------------------------------------
+				   INSERT ACTION 
+----------------------------------------------------------------------------
+*/
+	
+INSERT INTO ACTIONS (DESCRIPTIF)
+ VALUES ('don de médicaments'),
+		('don de vaccins'),
+		('don de médicaments et de vaccins'),
+		('conduite de projets à long terme dans les domaines de situations d’urgence humanitaire'),
+		('programmes de prévention et de formation'), 
+		('programmes de soutien éducatif et social'),
+		('programmes d’amélioration de l’accès aux soins'),
+		('programmes de lutte contre l’exclusion');	
